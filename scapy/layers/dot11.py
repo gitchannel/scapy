@@ -316,15 +316,10 @@ class RadioTap(Packet):
         FlagsField('present', None, -32, _rt_present),  # noqa: E501
         # Extended presence mask
         ConditionalField(PacketListField("Ext", [], next_cls_cb=_next_radiotap_extpm), lambda pkt: pkt.present and pkt.present.Ext),  # noqa: E501
-        # RadioTap fields - each starts with a ReversePadField
-        # to handle padding
 
         # TSFT
         ConditionalField(
-            ReversePadField(
-                LELongField("mac_timestamp", 0),
-                8
-            ),
+            LELongField("mac_timestamp", 0),
             lambda pkt: pkt.present and pkt.present.TSFT),
         # Flags
         ConditionalField(
@@ -337,10 +332,7 @@ class RadioTap(Packet):
             lambda pkt: pkt.present and pkt.present.Rate),
         # Channel
         ConditionalField(
-            ReversePadField(
-                LEShortField("ChannelFrequency", 0),
-                2
-            ),
+            LEShortField("ChannelFrequency", 0),
             lambda pkt: pkt.present and pkt.present.Channel),
         ConditionalField(
             FlagsField("ChannelFlags", None, -16, _rt_channelflags),
@@ -357,10 +349,7 @@ class RadioTap(Packet):
             lambda pkt: pkt.present and pkt.present.dBm_AntNoise),
         # Lock_Quality
         ConditionalField(
-            ReversePadField(
-                LEShortField("Lock_Quality", 0),
-                2
-            ),
+            LEShortField("Lock_Quality", 0),
             lambda pkt: pkt.present and pkt.present.Lock_Quality),
         # Antenna
         ConditionalField(
@@ -368,24 +357,15 @@ class RadioTap(Packet):
             lambda pkt: pkt.present and pkt.present.Antenna),
         # RX Flags
         ConditionalField(
-            ReversePadField(
-                FlagsField("RXFlags", None, -16, _rt_rxflags),
-                2
-            ),
+            FlagsField("RXFlags", None, -16, _rt_rxflags),
             lambda pkt: pkt.present and pkt.present.RXFlags),
         # TX Flags
         ConditionalField(
-            ReversePadField(
-                FlagsField("TXFlags", None, -16, _rt_txflags),
-                2
-            ),
+            FlagsField("TXFlags", None, -16, _rt_txflags),
             lambda pkt: pkt.present and pkt.present.TXFlags),
         # ChannelPlus
         ConditionalField(
-            ReversePadField(
-                FlagsField("ChannelPlusFlags", None, -32, _rt_channelflags2),
-                4
-            ),
+            FlagsField("ChannelPlusFlags", None, -32, _rt_channelflags2),
             lambda pkt: pkt.present and pkt.present.ChannelPlus),
         ConditionalField(
             LEShortField("ChannelPlusFrequency", 0),
@@ -395,10 +375,7 @@ class RadioTap(Packet):
             lambda pkt: pkt.present and pkt.present.ChannelPlus),
         # MCS
         ConditionalField(
-            ReversePadField(
-                FlagsField("knownMCS", None, -8, _rt_knownmcs),
-                2
-            ),
+            FlagsField("knownMCS", None, -8, _rt_knownmcs),
             lambda pkt: pkt.present and pkt.present.MCS),
         ConditionalField(
             BitField("Ness_LSB", 0, 1),
@@ -423,20 +400,14 @@ class RadioTap(Packet):
             lambda pkt: pkt.present and pkt.present.MCS),
         # A_MPDU
         ConditionalField(
-            ReversePadField(
-                LEIntField("A_MPDU_ref", 0),
-                4
-            ),
+            LEIntField("A_MPDU_ref", 0),
             lambda pkt: pkt.present and pkt.present.A_MPDU),
         ConditionalField(
             FlagsField("A_MPDU_flags", None, -32, _rt_a_mpdu_flags),
             lambda pkt: pkt.present and pkt.present.A_MPDU),
         # VHT
         ConditionalField(
-            ReversePadField(
-                FlagsField("KnownVHT", None, -16, _rt_knownvht),
-                2
-            ),
+            FlagsField("KnownVHT", None, -16, _rt_knownvht),
             lambda pkt: pkt.present and pkt.present.VHT),
         ConditionalField(
             FlagsField("PresentVHT", None, -8, _rt_presentvht),
@@ -455,10 +426,7 @@ class RadioTap(Packet):
             lambda pkt: pkt.present and pkt.present.VHT),
         # timestamp
         ConditionalField(
-            ReversePadField(
-                LELongField("timestamp", 0),
-                8
-            ),
+            LELongField("timestamp", 0),
             lambda pkt: pkt.present and pkt.present.timestamp),
         ConditionalField(
             LEShortField("ts_accuracy", 0),
@@ -477,10 +445,7 @@ class RadioTap(Packet):
             lambda pkt: pkt.present and pkt.present.timestamp),
         # HE - XXX not complete
         ConditionalField(
-            ReversePadField(
-                LEShortField("he_data1", 0),
-                2
-            ),
+            LEShortField("he_data1", 0),
             lambda pkt: pkt.present and pkt.present.HE),
         ConditionalField(
             LEShortField("he_data2", 0),
@@ -499,10 +464,7 @@ class RadioTap(Packet):
             lambda pkt: pkt.present and pkt.present.HE),
         # HE_MU
         ConditionalField(
-            ReversePadField(
-                LEShortField("hemu_flags1", 0),
-                2
-            ),
+            LEShortField("hemu_flags1", 0),
             lambda pkt: pkt.present and pkt.present.HE_MU),
         ConditionalField(
             LEShortField("hemu_flags2", 0),
@@ -517,10 +479,7 @@ class RadioTap(Packet):
             lambda pkt: pkt.present and pkt.present.HE_MU),
         # HE_MU_other_user
         ConditionalField(
-            ReversePadField(
-                LEShortField("hemuou_per_user_1", 0x7fff),
-                2
-            ),
+            LEShortField("hemuou_per_user_1", 0x7fff),
             lambda pkt: pkt.present and pkt.present.HE_MU_other_user),
         ConditionalField(
             LEShortField("hemuou_per_user_2", 0x003f),
@@ -534,10 +493,7 @@ class RadioTap(Packet):
             lambda pkt: pkt.present and pkt.present.HE_MU_other_user),
         # L_SIG
         ConditionalField(
-            ReversePadField(
-                FlagsField("lsig_data1", 0, -16, ["rate", "length"]),
-                2
-            ),
+            FlagsField("lsig_data1", 0, -16, ["rate", "length"]),
             lambda pkt: pkt.present and pkt.present.L_SIG),
         ConditionalField(
             BitField("lsig_length", 0, 12, tot_size=-2),
@@ -547,10 +503,7 @@ class RadioTap(Packet):
             lambda pkt: pkt.present and pkt.present.L_SIG),
         # TLV fields
         ConditionalField(
-            ReversePadField(
-                PacketListField("tlvs", [], RadioTapTLV),
-                4
-            ),
+            PacketListField("tlvs", [], RadioTapTLV),
             lambda pkt: pkt.present and pkt.present.TLV,
         ),
         # Remaining
